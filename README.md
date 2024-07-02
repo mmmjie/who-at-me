@@ -27,13 +27,10 @@ _✨ 看看是谁又在艾特我 ✨_
 通过`pip`或`nb`安装；
 需要协议端支持转发合并消息。
 
-命令：
-```shell
-pip install nonebot-plugin-who-at-me
-```
-```shell
-nb plugin install nonebot-plugin-who-at-me
-```
+安装方法
+
+直接下载插件文件夹放进真寻插件目录或者nb2的dirs目录
+
 # 配置
 记得配置SUPERUSERS
 ```shell
@@ -46,7 +43,7 @@ reminder_expire_time 合并转发消息记录的超时时间, 单位为天
 | 命令              | 描述              |
 | ------------------ | --------------- |
 |谁艾特我 | 查看到底是谁艾特了你       |
-|/clear_db     | 清理当前用户的消息记录 |
+|清除艾特记录     | 清理当前用户的消息记录 |
 |/clear_all     | 清理全部消息记录     |
 
 结果将以合并转发形式发送
