@@ -16,11 +16,35 @@ from .database import MainTable
 from .rule import message_at_rule
 from .utils import node_custom, get_member_name
 from .config import Config
+from datetime import datetime
+
+__zx_plugin_name__ = "谁艾特我"
+__plugin_des__ = "看看谁找我啦"
+__plugin_settings__ = {
+    "level": 5,
+    "default_status": True,
+    "limit_superuser": False,
+    "cmd": ["谁@我","清除艾特记录",],
+}
+
+__plugin_usage__ = """
+usage：
+    指令：
+       谁艾特我
+       谁@我
+       清除艾特记录
+   使用过程中遇到无反应或者其他报错，
+   则可以尝试以下两个命令
+      清除艾特记录
+      更新群员昵称与权限
+   
+""".strip()
+
 
 __plugin_meta__ = PluginMetadata(
-    name="who_at_me",
+    name="谁艾特我",
     description="看看是谁又艾特了我",
-    usage="直接发送 谁@我了？",
+    usage=__plugin_usage__,
     extra={
         "author": "SEAFHMC <soku_ritsuki@outlook.com>",
         "version": "0.3.1",
@@ -86,7 +110,7 @@ async def _(bot: Bot, event: GroupMessageEvent, message=EventMessage()):
         return
 
 
-who_at_me = on_regex(r"谁.*(@|艾特|圈|[aA][tT])+.?我")
+who_at_me = on_regex(r"谁.*(@|艾特|圈|[aA][tT])+.?我", priority=98, block=True)
 
 
 @who_at_me.handle()
@@ -103,7 +127,7 @@ async def _(bot: Bot, event: MessageEvent):
         if time.time() - int(res.time) <= reminder_expire_time:
             message_list.append(
                 node_custom(
-                    content=res.message,
+                    content=res.message + f" \n来自: {res.operator_name} ({str(int(res.operator_id))}) {datetime.fromtimestamp(int(res.time)).strftime('%Y-%m-%d %H:%M:%S')}",
                     user_id=res.operator_id,
                     name=res.operator_name,
                     time=res.time,
@@ -128,7 +152,7 @@ async def _(bot: Bot, event: MessageEvent):
                 raise e
 
 
-clear_db = on_command("清除数据库", aliases={"clear_db", "db_clear", "已阅"})
+clear_db = on_command("清除@记录", aliases={"清除艾特记录", "已阅"})
 
 
 @clear_db.handle()
